@@ -38,12 +38,12 @@ gap_df <- tbl_df(gapminder)
 
 #my piping attempt
 #gap_df %>% glimpse
-#a bit complicated at first, I should improve on this soon
+#min_max_GDP_cont would store the subset comparing continents with max and min GDP
 min_max_GDP_cont <- gap_df %>% 
   group_by(continent) %>% 
   summarise(max_GDP = max(gdpPercap), min_GDP = min(gdpPercap))
 
-#using kable
+#using kable to display the
 min_max_GDP_cont %>% kable(format = 'markdown')
 ```
 
@@ -61,7 +61,9 @@ min_max_GDP_cont %>% kable(format = 'markdown')
 #reporting using a ggplot
 (ggplot(min_max_GDP_cont) + 
   geom_linerange(aes(x=continent, ymin=min_GDP, ymax=max_GDP, width = 1.0, color=continent)) + 
-  xlab("Continents") + ylab("GDP Per Capita")) + ggtitle("GDP Per Capita across Continents")
+  xlab("Continents") + 
+  ylab("GDP Per Capita")) + 
+  ggtitle("GDP Per Capita across Continents")
 ```
 
 
@@ -173,11 +175,11 @@ data_melt <- melt(mean_trimmed, id="year")
 #plot trimmed and weighted mean
 ggplot(data=data_melt, 
        aes(x=year, y=value, color=variable)) +
-       geom_line()+
-       geom_point()+
-       ggtitle("Weighted and Trimmed Means variability")+
-       xlab("Year")+
-       ylab("Life Expectancy in years")
+       geom_line() +
+       geom_point() +
+       xlab("Year") +
+       ylab("Life Expectancy in years") +
+       ggtitle("Weighted and Trimmed Means variability")
 ```
 
 
@@ -215,10 +217,10 @@ cont_lifeExp <- gap_df %>%
 #plotting
 ggplot(cont_lifeExp, 
        aes(x=year, y=w_mean, color=continent)) +
-       geom_line()+
-       geom_point()+
-       xlab("Years")+
-       ylab("Weighted Mean Life Expectancy")+
+       geom_line() +
+       geom_point() +
+       xlab("Years") +
+       ylab("Weighted Mean Life Expectancy") +
        ggtitle("Life Expectancy variation over time across continents")
 ```
 
@@ -276,9 +278,9 @@ min_max_lifeExp_melt <- melt(min_max_lifeExp, id="year")
 #plotting them
 ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
   geom_line()+
-  geom_point()+
-  xlab("Years")+
-  ylab("Life Expectancy in years")+
+  geom_point() +
+  xlab("Years") +
+  ylab("Life Expectancy in years") +
   ggtitle("Difference between maximum and minimum Life Expectancy")
 ```
 
@@ -352,10 +354,10 @@ kable(rwanda_japan, format = 'markdown')
 ```r
 #ggplot
 ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
-  geom_line()+ 
-  geom_point()+
-  xlab("Years")+
-  ylab("Life Expectancy in years")+
+  geom_line() + 
+  geom_point() +
+  xlab("Years") +
+  ylab("Life Expectancy in years") +
   ggtitle("Rwanda V/S Japan Life Expectancy")
 ```
 
@@ -364,10 +366,10 @@ ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
 ```r
 #how the gdp looks between these two nations
 ggplot(rwanda_japan, aes(x=year, y=gdpPercap, color=country))+ 
-  geom_line()+ 
-  geom_point()+
-  xlab("Years")+
-  ylab("GDP Per Capita")+
+  geom_line() + 
+  geom_point() +
+  xlab("Years") +
+  ylab("GDP Per Capita") +
   ggtitle("Rwanda V/S Japan GDP Per capita")
 ```
 
@@ -420,16 +422,16 @@ kable(northam, format('markdown'))
 ```r
 #plot 
 ggplot(northam, aes(x=year, y=lifeExp, color=country))+
-  geom_line()+
-  geom_point()+
-  xlab("Years")+
-  ylab("Life Expectancy in years")+
+  geom_line() +
+  geom_point() +
+  xlab("Years") +
+  ylab("Life Expectancy in years") +
   ggtitle("Life Expectancy in North American countries")
 ```
 
 
 
-People live longer in Canda, compared to USA, and Mexico! 
+People live longer in Canada, compared to USA, and Mexico! 
 
 ---
 

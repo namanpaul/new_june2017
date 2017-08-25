@@ -143,12 +143,12 @@ library(knitr)</code></pre>
 
 #my piping attempt
 #gap_df %&gt;% glimpse
-#a bit complicated at first, I should improve on this soon
+#min_max_GDP_cont would store the subset comparing continents with max and min GDP
 min_max_GDP_cont &lt;- gap_df %&gt;% 
   group_by(continent) %&gt;% 
   summarise(max_GDP = max(gdpPercap), min_GDP = min(gdpPercap))
 
-#using kable
+#using kable to display the
 min_max_GDP_cont %&gt;% kable(format = 'markdown')</code></pre>
 <table>
 <thead>
@@ -189,7 +189,9 @@ min_max_GDP_cont %&gt;% kable(format = 'markdown')</code></pre>
 <pre class="r"><code>#reporting using a ggplot
 (ggplot(min_max_GDP_cont) + 
   geom_linerange(aes(x=continent, ymin=min_GDP, ymax=max_GDP, width = 1.0, color=continent)) + 
-  xlab(&quot;Continents&quot;) + ylab(&quot;GDP Per Capita&quot;)) + ggtitle(&quot;GDP Per Capita across Continents&quot;)</code></pre>
+  xlab(&quot;Continents&quot;) + 
+  ylab(&quot;GDP Per Capita&quot;)) + 
+  ggtitle(&quot;GDP Per Capita across Continents&quot;)</code></pre>
 <hr />
 <p><strong><em>Task 2: GDP spread within the continents</em></strong></p>
 <p>To analyze the spread of the GDP within the continents, I used the following:</p>
@@ -405,11 +407,11 @@ data_melt &lt;- melt(mean_trimmed, id=&quot;year&quot;)
 #plot trimmed and weighted mean
 ggplot(data=data_melt, 
        aes(x=year, y=value, color=variable)) +
-       geom_line()+
-       geom_point()+
-       ggtitle(&quot;Weighted and Trimmed Means variability&quot;)+
-       xlab(&quot;Year&quot;)+
-       ylab(&quot;Life Expectancy in years&quot;)</code></pre>
+       geom_line() +
+       geom_point() +
+       xlab(&quot;Year&quot;) +
+       ylab(&quot;Life Expectancy in years&quot;) +
+       ggtitle(&quot;Weighted and Trimmed Means variability&quot;)</code></pre>
 <p>This was pretty interesting, how the trimmed and weighted means would yield different meanings altogether. In this case, these were some of my inferences:</p>
 <ul>
 <li>The regular mean of <em>Life Expectancy</em>, which we could easily calculate, might not provide sufficient information, to end up with a conclusion.</li>
@@ -433,10 +435,10 @@ ggplot(data=data_melt,
 #plotting
 ggplot(cont_lifeExp, 
        aes(x=year, y=w_mean, color=continent)) +
-       geom_line()+
-       geom_point()+
-       xlab(&quot;Years&quot;)+
-       ylab(&quot;Weighted Mean Life Expectancy&quot;)+
+       geom_line() +
+       geom_point() +
+       xlab(&quot;Years&quot;) +
+       ylab(&quot;Weighted Mean Life Expectancy&quot;) +
        ggtitle(&quot;Life Expectancy variation over time across continents&quot;)</code></pre>
 <hr />
 <p>The following can be inferred:</p>
@@ -531,9 +533,9 @@ min_max_lifeExp_melt &lt;- melt(min_max_lifeExp, id=&quot;year&quot;)
 #plotting them
 ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
   geom_line()+
-  geom_point()+
-  xlab(&quot;Years&quot;)+
-  ylab(&quot;Life Expectancy in years&quot;)+
+  geom_point() +
+  xlab(&quot;Years&quot;) +
+  ylab(&quot;Life Expectancy in years&quot;) +
   ggtitle(&quot;Difference between maximum and minimum Life Expectancy&quot;)</code></pre>
 <p>Incredible difference, between the minimum and maximum lifeExp values!</p>
 <p>Let’s explore it more</p>
@@ -677,17 +679,17 @@ kable(rwanda_japan, format = 'markdown')</code></pre>
 </table>
 <pre class="r"><code>#ggplot
 ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
-  geom_line()+ 
-  geom_point()+
-  xlab(&quot;Years&quot;)+
-  ylab(&quot;Life Expectancy in years&quot;)+
+  geom_line() + 
+  geom_point() +
+  xlab(&quot;Years&quot;) +
+  ylab(&quot;Life Expectancy in years&quot;) +
   ggtitle(&quot;Rwanda V/S Japan Life Expectancy&quot;)</code></pre>
 <pre class="r"><code>#how the gdp looks between these two nations
 ggplot(rwanda_japan, aes(x=year, y=gdpPercap, color=country))+ 
-  geom_line()+ 
-  geom_point()+
-  xlab(&quot;Years&quot;)+
-  ylab(&quot;GDP Per Capita&quot;)+
+  geom_line() + 
+  geom_point() +
+  xlab(&quot;Years&quot;) +
+  ylab(&quot;GDP Per Capita&quot;) +
   ggtitle(&quot;Rwanda V/S Japan GDP Per capita&quot;)</code></pre>
 <p><em>Japan</em> has been on a steady rise, building up on its GDP ever since.</p>
 <p>However, <em>Rwanda</em> has been struggling with difficult circumstances, which has prevented the nation to progress, whether in terms of GDP or increasing the life expectancy.</p>
@@ -813,12 +815,12 @@ kable(northam, format('markdown'))</code></pre>
 </table>
 <pre class="r"><code>#plot 
 ggplot(northam, aes(x=year, y=lifeExp, color=country))+
-  geom_line()+
-  geom_point()+
-  xlab(&quot;Years&quot;)+
-  ylab(&quot;Life Expectancy in years&quot;)+
+  geom_line() +
+  geom_point() +
+  xlab(&quot;Years&quot;) +
+  ylab(&quot;Life Expectancy in years&quot;) +
   ggtitle(&quot;Life Expectancy in North American countries&quot;)</code></pre>
-<p>People live longer in Canda, compared to USA, and Mexico!</p>
+<p>People live longer in Canada, compared to USA, and Mexico!</p>
 <hr />
 <p><strong><em>Report</em></strong></p>
 <p>This was an interesting homework. I feel confident about plotting, using ggplot mainly. It was the first time, I experimented with piping, and to see it work was fabulous.</p>
