@@ -43,12 +43,12 @@ gap_df <- tbl_df(gapminder)
 
 #my piping attempt
 #gap_df %>% glimpse
-#a bit complicated at first, I should improve on this soon
+#min_max_GDP_cont would store the subset comparing continents with max and min GDP
 min_max_GDP_cont <- gap_df %>% 
   group_by(continent) %>% 
   summarise(max_GDP = max(gdpPercap), min_GDP = min(gdpPercap))
 
-#using kable
+#using kable to display the table
 min_max_GDP_cont %>% kable(format = 'markdown')
 ```
 
@@ -66,7 +66,9 @@ min_max_GDP_cont %>% kable(format = 'markdown')
 #reporting using a ggplot
 (ggplot(min_max_GDP_cont) + 
   geom_linerange(aes(x=continent, ymin=min_GDP, ymax=max_GDP, width = 1.0, color=continent)) + 
-  xlab("Continents") + ylab("GDP Per Capita")) + ggtitle("GDP Per Capita across Continents")
+  xlab("Continents")+
+  ylab("GDP Per Capita"))+
+  ggtitle("GDP Per Capita across Continents")
 ```
 
 
