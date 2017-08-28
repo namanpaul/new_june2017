@@ -1,20 +1,23 @@
 ---
-title: "knitcheck"
+title: "2_coding_sample"
 author: "namanpaul"
 date: "August 23, 2017"
 output: 
   html_document: 
     keep_md: yes
 ---
-
-# hw003
-namanpaul  
-October 5, 2015  
-
-***Exploring dplyr***
+####This is a coding sample based on gapminder dataset, representative of my coding style. It was one of the many assignments for the STAT 545 course at UBC. Highlights the flow of code, reporting and visualization strategies, and interpretation of the results
 
 ---
 
+
+
+
+
+
+####Exploring the dplyr package
+
+---
 
 ***Loading the packages***
 
@@ -63,12 +66,14 @@ min_max_GDP_cont %>% kable(format = 'markdown')
 |Oceania   |  34435.37| 10039.5956|
 
 ```r
-#reporting using a ggplot
+#visualizing the output using a ggplot
 (ggplot(min_max_GDP_cont) + 
   geom_linerange(aes(x=continent, ymin=min_GDP, ymax=max_GDP, width = 1.0, color=continent)) + 
   xlab("Continents") + 
   ylab("GDP Per Capita")) + 
   ggtitle("GDP Per Capita across Continents")
+  
+#very basic ggplot features used  
 ```
 
 
@@ -77,9 +82,9 @@ min_max_GDP_cont %>% kable(format = 'markdown')
 ---
 
 
-***Task 2: GDP spread within the continents***
+***Task 2: GDP spread among the continents***
 
-To analyze the spread of the GDP within the continents, I used the following:
+To analyze the spread of the GDP among the different continents, I used the following:
 
 - minimum GDP
 - maximum GDP
@@ -91,6 +96,8 @@ To analyze the spread of the GDP within the continents, I used the following:
 
 ```r
 #Making the beautiful kable-table
+#from gap_df we extract information about the min,max, compute mean,median, sd and group it by continents
+
 gap_df %>% 
   group_by(continent) %>% 
   summarise(gdpPercap_min = min(gdpPercap),
@@ -98,24 +105,30 @@ gap_df %>%
             gdpPercap_mean = mean(gdpPercap),
             gdpPercap_median = median(gdpPercap),
             gdpPercap_sd = sd(gdpPercap)) %>% 
-  kable(format='markdown')
+  kable(format='markdown',digits=2)
 ```
 
 
 
 |continent | gdpPercap_min| gdpPercap_max| gdpPercap_mean| gdpPercap_median| gdpPercap_sd|
 |:---------|-------------:|-------------:|--------------:|----------------:|------------:|
-|Africa    |      241.1659|      21951.21|       2193.755|         1192.138|     2827.930|
-|Americas  |     1201.6372|      42951.65|       7136.110|         5465.510|     6396.764|
-|Asia      |      331.0000|     113523.13|       7902.150|         2646.787|    14045.373|
-|Europe    |      973.5332|      49357.19|      14469.476|        12081.749|     9355.213|
-|Oceania   |    10039.5956|      34435.37|      18621.609|        17983.304|     6358.983|
+|Africa    |        241.17|      21951.21|        2193.75|          1192.14|      2827.93|
+|Americas  |       1201.64|      42951.65|        7136.11|          5465.51|      6396.76|
+|Asia      |        331.00|     113523.13|        7902.15|          2646.79|     14045.37|
+|Europe    |        973.53|      49357.19|       14469.48|         12081.75|      9355.21|
+|Oceania   |      10039.60|      34435.37|       18621.61|         17983.30|      6358.98|
+--- 
 
+Visualizing the data with a ggplot
 ```r
 #Plotting this spread
-(ggplot(gap_df) + aes(x=continent, y=gdpPercap, color=continent) + geom_boxplot(alpha=0.5) + ggtitle("GDP Spread across continents"))
+(ggplot(gap_df) + 
+  aes(x=continent, y=gdpPercap, color=continent) + 
+  geom_boxplot(alpha=0.5) + 
+  ggtitle("GDP Spread across continents"))
 ```
 
+Visualizing the spread using a density plot (ggplot)
 
 
 ```r
@@ -126,20 +139,22 @@ gap_df %>%
   ylab("Density") + 
   ggtitle("GDP Per capita Density Plot"))
 ```
+---
 
-
+This shows the spread, needs further exploration.
 
 ---
 
 
-***Task 3: Vanilla task***
+***Task 3: Vanilla task (a simpler task)***
 
 It was unclear to me, at the first place, what *Vanilla Mean* meant. 
 
 Was enlightened by this particular [article.](http://www.mymarketresearchmethods.com/descriptive-inferential-statistics-difference/)
 
-
-
+So for this task I looked at the lifeExpectancy measure, how this differs
+when weighted according to the geographic location, and gdpPercap!
+---
 
 ```r
 #trimmed mean
@@ -152,29 +167,30 @@ mean_trimmed <- gap_df %>%
             weighted_mean_lifeExp_gdpPercap= weighted.mean(lifeExp,gdpPercap))
             
 
-mean_trimmed %>% kable(format='markdown')
+mean_trimmed %>% kable(format='markdown',digits=2)
 ```
-
-
-
 | year| regular_mean| trimmed_mean_lifeExp| weighted_mean_lifeExp_cont| weighted_mean_lifeExp_gdpPercap|
 |----:|------------:|--------------------:|--------------------------:|-------------------------------:|
-| 1952|     49.05762|             46.83114|                   53.49164|                        57.50267|
-| 1957|     51.50740|             49.85769|                   55.99311|                        59.97587|
-| 1962|     53.60925|             52.40092|                   58.04491|                        62.05187|
-| 1967|     55.67829|             55.15267|                   60.03400|                        63.92627|
-| 1972|     57.64739|             57.87755|                   61.85470|                        65.79301|
-| 1977|     59.57016|             60.41925|                   63.62624|                        67.47203|
-| 1982|     61.53320|             62.81936|                   65.47769|                        69.48395|
-| 1987|     63.21261|             65.00983|                   67.03623|                        71.45846|
-| 1992|     64.16034|             66.50200|                   68.14683|                        72.85761|
-| 1997|     65.01468|             67.69257|                   69.24829|                        74.05185|
-| 2002|     65.69492|             68.90531|                   70.24060|                        75.04541|
-| 2007|     67.00742|             70.27053|                   71.47271|                        75.96507|
+| 1952|        49.06|                46.83|                      53.49|                           57.50|
+| 1957|        51.51|                49.86|                      55.99|                           59.98|
+| 1962|        53.61|                52.40|                      58.04|                           62.05|
+| 1967|        55.68|                55.15|                      60.03|                           63.93|
+| 1972|        57.65|                57.88|                      61.85|                           65.79|
+| 1977|        59.57|                60.42|                      63.63|                           67.47|
+| 1982|        61.53|                62.82|                      65.48|                           69.48|
+| 1987|        63.21|                65.01|                      67.04|                           71.46|
+| 1992|        64.16|                66.50|                      68.15|                           72.86|
+| 1997|        65.01|                67.69|                      69.25|                           74.05|
+| 2002|        65.69|                68.91|                      70.24|                           75.05|
+| 2007|        67.01|                70.27|                      71.47|                           75.97|
+
+
+
 
 ```r
 #library(reshape2), here I first used the melt function, to keep things easy
-#melt
+#melt function:
+
 data_melt <- melt(mean_trimmed, id="year")
 
 #plot trimmed and weighted mean
@@ -201,7 +217,7 @@ This was pretty interesting, how the trimmed and weighted means would yield diff
 ---
 
 
-***Task 4: How is life expectancy changing over time in continents***
+***Task 4: How is life expectancy changing over time in continents?***
 
 I used a weighted mean, to determine how the longitivity varies across continents, over time. 
 
@@ -213,13 +229,15 @@ I weighted the mean using:
 
 
 ```r
+#this piping function, would select the year, lifeExp, cont, population, gdp and summarize it according to the weighted mean grouping them by year and continent
+
 cont_lifeExp <- gap_df %>% 
   group_by(year,continent) %>% 
   select(year, lifeExp,continent, pop, gdpPercap) %>% 
   summarise(w_mean= weighted.mean(lifeExp,continent,pop))
 
 
-#plotting
+#plotting using ggplot, with lines and points to show changes across time
 ggplot(cont_lifeExp, 
        aes(x=year, y=w_mean, color=continent)) +
        geom_line() +
@@ -249,38 +267,42 @@ The following can be inferred:
 
 
 ```r
-#Finding the highest and lowest lifeExp
+#Finding the countires with highest and lowest lifeExp
 min_max_lifeExp <- gap_df %>% 
   group_by(year) %>% 
   select(year,lifeExp,country) %>% 
   summarise(min_lifeExp= min(lifeExp),
             max_lifeExp= max(lifeExp))
 
-min_max_lifeExp %>% kable(format='markdown')
+min_max_lifeExp %>% kable(format='markdown',digits=2)
 ```
 
-
+---
 
 | year| min_lifeExp| max_lifeExp|
 |----:|-----------:|-----------:|
-| 1952|      28.801|      72.670|
-| 1957|      30.332|      73.470|
-| 1962|      31.997|      73.680|
-| 1967|      34.020|      74.160|
-| 1972|      35.400|      74.720|
-| 1977|      31.220|      76.110|
-| 1982|      38.445|      77.110|
-| 1987|      39.906|      78.670|
-| 1992|      23.599|      79.360|
-| 1997|      36.087|      80.690|
-| 2002|      39.193|      82.000|
-| 2007|      39.613|      82.603|
+| 1952|       28.80|       72.67|
+| 1957|       30.33|       73.47|
+| 1962|       32.00|       73.68|
+| 1967|       34.02|       74.16|
+| 1972|       35.40|       74.72|
+| 1977|       31.22|       76.11|
+| 1982|       38.45|       77.11|
+| 1987|       39.91|       78.67|
+| 1992|       23.60|       79.36|
+| 1997|       36.09|       80.69|
+| 2002|       39.19|       82.00|
+| 2007|       39.61|       82.60|
+---
+
+A steady rise...
+
 
 ```r
 #melting them
 min_max_lifeExp_melt <- melt(min_max_lifeExp, id="year")
 
-#plotting them
+#plotting them with ggplot
 ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
   geom_line()+
   geom_point() +
@@ -288,18 +310,18 @@ ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
   ylab("Life Expectancy in years") +
   ggtitle("Difference between maximum and minimum Life Expectancy")
 ```
-
+---
 
 
 Incredible difference, between the minimum and maximum lifeExp values!
 
-Let's explore it more
+Let's further explore it
 
 ---
 
 
 
-***Task 6: Interesting stories,***
+***Task 6: Interesting stories***
 
 I have performed these 2 analyses:
 
@@ -310,7 +332,7 @@ I have performed these 2 analyses:
 
 
 ```r
-#just viewing Rwanda, compared to Japan what happened to the lifeExp there
+#Viewing Rwanda, compared to Japan what happened to the lifeExp there
 #found out using the subset below
 
 maxm <- subset(gap_df, gap_df$lifeExp==max(gap_df$lifeExp))
@@ -329,35 +351,38 @@ maxm %>% glimpse()
 ```
 
 ```r
-#list created with the country names, which I want to subset
+#rw_jpn list created with the country names, which I want to subset
 rw_jpn <- c('Rwanda','Japan')
 
 #subset
 rwanda_japan <- subset(gap_df, gap_df$country==rw_jpn)
 
 #printing as a kable table
-kable(rwanda_japan, format = 'markdown')
+kable(rwanda_japan, format = 'markdown',digits=2)
 ```
 
+---
 
+|country |continent | year| lifeExp|       pop| gdpPercap|
+|:-------|:---------|----:|-------:|---------:|---------:|
+|Japan   |Asia      | 1957|   65.50|  91563009|   4317.69|
+|Japan   |Asia      | 1967|   71.43| 100825279|   9847.79|
+|Japan   |Asia      | 1977|   75.38| 113872473|  16610.38|
+|Japan   |Asia      | 1987|   78.67| 122091325|  22375.94|
+|Japan   |Asia      | 1997|   80.69| 125956499|  28816.58|
+|Japan   |Asia      | 2007|   82.60| 127467972|  31656.07|
+|Rwanda  |Africa    | 1952|   40.00|   2534927|    493.32|
+|Rwanda  |Africa    | 1962|   43.00|   3051242|    597.47|
+|Rwanda  |Africa    | 1972|   44.60|   3992121|    590.58|
+|Rwanda  |Africa    | 1982|   46.22|   5507565|    881.57|
+|Rwanda  |Africa    | 1992|   23.60|   7290203|    737.07|
+|Rwanda  |Africa    | 2002|   43.41|   7852401|    785.65|
+---
 
-|country |continent | year| lifeExp|       pop|  gdpPercap|
-|:-------|:---------|----:|-------:|---------:|----------:|
-|Japan   |Asia      | 1957|  65.500|  91563009|  4317.6944|
-|Japan   |Asia      | 1967|  71.430| 100825279|  9847.7886|
-|Japan   |Asia      | 1977|  75.380| 113872473| 16610.3770|
-|Japan   |Asia      | 1987|  78.670| 122091325| 22375.9419|
-|Japan   |Asia      | 1997|  80.690| 125956499| 28816.5850|
-|Japan   |Asia      | 2007|  82.603| 127467972| 31656.0681|
-|Rwanda  |Africa    | 1952|  40.000|   2534927|   493.3239|
-|Rwanda  |Africa    | 1962|  43.000|   3051242|   597.4731|
-|Rwanda  |Africa    | 1972|  44.600|   3992121|   590.5807|
-|Rwanda  |Africa    | 1982|  46.218|   5507565|   881.5706|
-|Rwanda  |Africa    | 1992|  23.599|   7290203|   737.0686|
-|Rwanda  |Africa    | 2002|  43.413|   7852401|   785.6538|
+23.60 years life expectancy reported in Rwanda for the year 1992!
 
 ```r
-#ggplot
+#ggplot to visualize the huge difference
 ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
   geom_line() + 
   geom_point() +
@@ -368,8 +393,9 @@ ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
 
 
 
+
 ```r
-#how the gdp looks between these two nations
+#how the gdp looks between these two nations (comparison)
 ggplot(rwanda_japan, aes(x=year, y=gdpPercap, color=country))+ 
   geom_line() + 
   geom_point() +
@@ -390,42 +416,44 @@ I remember watching the movie [Hotel Rwanda](https://en.wikipedia.org/wiki/Hotel
 
 ---
 
+---
 
-
-***North American Countries***
+***Analyzing countries in the North American continent***
 
 A comparison between the 3 North American countries: Canada, Mexico, and USA
 
-
+---
 
 ```r
 #comparing the north american countries
 list_northam <- c('United States','Mexico', 'Canada')
 northam <- subset(gap_df, gap_df$country==list_northam)
 
-#kable
-kable(northam, format('markdown'))
+#displaying with kable
+kable(northam, format('markdown'),digits=2)
 ```
 
-
-
+---
 |country       |continent | year| lifeExp|       pop| gdpPercap|
 |:-------------|:---------|----:|-------:|---------:|---------:|
-|Canada        |Americas  | 1962|  71.300|  18985849| 13462.486|
-|Canada        |Americas  | 1977|  74.210|  23796400| 22090.883|
-|Canada        |Americas  | 1992|  77.950|  28523502| 26342.884|
-|Canada        |Americas  | 2007|  80.653|  33390141| 36319.235|
-|Mexico        |Americas  | 1957|  55.190|  35015548|  4131.547|
-|Mexico        |Americas  | 1972|  62.361|  55984294|  6809.407|
-|Mexico        |Americas  | 1987|  69.498|  80122492|  8688.156|
-|Mexico        |Americas  | 2002|  74.902| 102479927| 10742.441|
-|United States |Americas  | 1952|  68.440| 157553000| 13990.482|
-|United States |Americas  | 1967|  70.760| 198712000| 19530.366|
-|United States |Americas  | 1982|  74.650| 232187835| 25009.559|
-|United States |Americas  | 1997|  76.810| 272911760| 35767.433|
+|Canada        |Americas  | 1962|   71.30|  18985849|  13462.49|
+|Canada        |Americas  | 1977|   74.21|  23796400|  22090.88|
+|Canada        |Americas  | 1992|   77.95|  28523502|  26342.88|
+|Canada        |Americas  | 2007|   80.65|  33390141|  36319.24|
+|Mexico        |Americas  | 1957|   55.19|  35015548|   4131.55|
+|Mexico        |Americas  | 1972|   62.36|  55984294|   6809.41|
+|Mexico        |Americas  | 1987|   69.50|  80122492|   8688.16|
+|Mexico        |Americas  | 2002|   74.90| 102479927|  10742.44|
+|United States |Americas  | 1952|   68.44| 157553000|  13990.48|
+|United States |Americas  | 1967|   70.76| 198712000|  19530.37|
+|United States |Americas  | 1982|   74.65| 232187835|  25009.56|
+|United States |Americas  | 1997|   76.81| 272911760|  35767.43|
+---
+
+
 
 ```r
-#plot 
+#plots to visualize lifeexp by country 
 ggplot(northam, aes(x=year, y=lifeExp, color=country))+
   geom_line() +
   geom_point() +
@@ -436,7 +464,7 @@ ggplot(northam, aes(x=year, y=lifeExp, color=country))+
 
 
 
-People live longer in Canada, compared to USA, and Mexico! 
+People live longer in Canada, compared to USA, and Mexico! Numerous reasons!
 
 ---
 
