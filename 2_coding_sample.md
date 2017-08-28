@@ -70,7 +70,8 @@ min_max_GDP_cont %>% kable(format = 'markdown',digits=2)
   
 #very basic ggplot features used  
 ```
-
+![](fig_1.png)
+---
 
 
 
@@ -122,8 +123,13 @@ Visualizing the data with a ggplot
   geom_boxplot(alpha=0.5) + 
   ggtitle("GDP Spread across continents"))
 ```
+![](fig_2.png)
 
-Visualizing the spread using a density plot (ggplot)
+Clearly, Africa ranks the lowest among the continets in terms of the GDPPercap.
+
+---
+
+Now, Visualizing the spread using a density plot (ggplot)
 
 
 ```r
@@ -134,6 +140,14 @@ Visualizing the spread using a density plot (ggplot)
   ylab("Density") + 
   ggtitle("GDP Per capita Density Plot"))
 ```
+---
+
+![](fig_3.png)
+
+---
+
+The Oceania continent comprises of 25 countries, of which most are island countries: lower population higher GDP percapita in contrast to the African contient.
+
 ---
 
 This shows the spread, needs further exploration.
@@ -198,7 +212,10 @@ ggplot(data=data_melt,
        ggtitle("Weighted and Trimmed Means variability")
 ```
 
+---
 
+![](fig_4.png)
+---
 
 
 This was pretty interesting, how the trimmed and weighted means would yield different meanings altogether. In this case, these were some of my inferences:
@@ -241,11 +258,11 @@ ggplot(cont_lifeExp,
        ylab("Weighted Mean Life Expectancy") +
        ggtitle("Life Expectancy variation over time across continents")
 ```
-
-
-
-
 ---
+
+![](fig_5.png)
+---
+
 
 The following can be inferred:
 
@@ -258,8 +275,7 @@ The following can be inferred:
 
 ***Task 5: Relative abundance of countries with low life expectancy over time by continent***
 
-
-
+Finding countries that have highest and lowest life expectancy in the world
 
 ```r
 #Finding the countires with highest and lowest lifeExp
@@ -307,7 +323,8 @@ ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
 ```
 ---
 
-
+![](fig_6.png)
+---
 Incredible difference, between the minimum and maximum lifeExp values!
 
 Let's further explore it
@@ -344,7 +361,9 @@ maxm %>% glimpse()
 ## $ pop       (dbl) 127467972
 ## $ gdpPercap (dbl) 31656.07
 ```
-
+---
+Let's compare Japan and Rwanda (countries with the max difference in their life expectancies over the years)
+---
 ```r
 #rw_jpn list created with the country names, which I want to subset
 rw_jpn <- c('Rwanda','Japan')
@@ -398,7 +417,10 @@ ggplot(rwanda_japan, aes(x=year, y=gdpPercap, color=country))+
   ylab("GDP Per Capita") +
   ggtitle("Rwanda V/S Japan GDP Per capita")
 ```
+---
 
+![](fig_7.png)
+---
 
 
 *Japan* has been on a steady rise, building up on its GDP ever since. 
@@ -457,9 +479,12 @@ ggplot(northam, aes(x=year, y=lifeExp, color=country))+
   ggtitle("Life Expectancy in North American countries")
 ```
 
+---
 
+![](fig_8.png)
 
-People live longer in Canada, compared to USA, and Mexico! Numerous reasons!
+---
+People live longer in Canada, compared to USA, and Mexico! Numerous reasons e.g. higher GDP!
 
 ---
 

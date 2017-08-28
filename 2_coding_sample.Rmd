@@ -52,19 +52,19 @@ min_max_GDP_cont <- gap_df %>%
   summarise(max_GDP = max(gdpPercap), min_GDP = min(gdpPercap))
 
 #using kable to display the
-min_max_GDP_cont %>% kable(format = 'markdown')
+min_max_GDP_cont %>% kable(format = 'markdown',digits=2)
 ```
 
 
-
-|continent |   max_GDP|    min_GDP|
-|:---------|---------:|----------:|
-|Africa    |  21951.21|   241.1659|
-|Americas  |  42951.65|  1201.6372|
-|Asia      | 113523.13|   331.0000|
-|Europe    |  49357.19|   973.5332|
-|Oceania   |  34435.37| 10039.5956|
-
+---
+|continent |   max_GDP|  min_GDP|
+|:---------|---------:|--------:|
+|Africa    |  21951.21|   241.17|
+|Americas  |  42951.65|  1201.64|
+|Asia      | 113523.13|   331.00|
+|Europe    |  49357.19|   973.53|
+|Oceania   |  34435.37| 10039.60|
+---
 ```r
 #visualizing the output using a ggplot
 (ggplot(min_max_GDP_cont) + 
