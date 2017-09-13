@@ -70,7 +70,7 @@ min_max_GDP_cont %>% kable(format = 'markdown',digits=2)
   
 #very basic ggplot features used  
 ```
-![](fig_1.png)
+![alt text](fig_1.png "Figure 1: GDP per capita across continents")
 ---
 
 
@@ -123,7 +123,7 @@ Visualizing the data with a ggplot
   geom_boxplot(alpha=0.5) + 
   ggtitle("GDP Spread across continents"))
 ```
-![](fig_2.png)
+![alt text](fig_2.png "Figure 2: GDP spread across continents")
 
 Clearly, Africa ranks the lowest among the continets in terms of the GDPPercap.
 
@@ -142,7 +142,7 @@ Now, Visualizing the spread using a density plot (ggplot)
 ```
 ---
 
-![](fig_3.png)
+![alt text](fig_3.png "Figure 3: GDP density plot")
 
 ---
 
@@ -214,7 +214,7 @@ ggplot(data=data_melt,
 
 ---
 
-![](fig_4.png)
+![alt text](fig_4.png "Figure 4: weighted and trimmed mean")
 ---
 
 
@@ -260,7 +260,7 @@ ggplot(cont_lifeExp,
 ```
 ---
 
-![](fig_5.png)
+![alt text](fig_5.png "Life expectancy over time across continents")
 ---
 
 
@@ -323,7 +323,7 @@ ggplot(min_max_lifeExp_melt, aes(x=year, y=value, color=variable))+
 ```
 ---
 
-![](fig_6.png)
+![alt text](fig_6.png "Figure 6: Min and Max life expectancy")
 ---
 Incredible difference, between the minimum and maximum lifeExp values!
 
@@ -351,17 +351,36 @@ maxm <- subset(gap_df, gap_df$lifeExp==max(gap_df$lifeExp))
 maxm %>% glimpse()
 ```
 
-```
-## Observations: 1
-## Variables: 6
-## $ country   (fctr) Japan
-## $ continent (fctr) Asia
-## $ year      (dbl) 2007
-## $ lifeExp   (dbl) 82.603
-## $ pop       (dbl) 127467972
-## $ gdpPercap (dbl) 31656.07
+Output for maximum:
+
+Observations: 1
+Variables: 6
+$ country   (fctr) Japan
+$ continent (fctr) Asia
+$ year      (dbl) 2007
+$ lifeExp   (dbl) 82.603
+$ pop       (dbl) 127467972
+$ gdpPercap (dbl) 31656.07
+
+---
+
+And similarly finding min life Exp
+
+```r
+minm <- subset(gap_df, gap_df$lifeExp==min(gap_df$lifeExp))
+minm %>% glimpse()
 ```
 ---
+Observations: 1
+Variables: 6
+$ country   (fctr) Rwanda
+$ continent (fctr) Africa
+$ year      (dbl) 1992
+$ lifeExp   (dbl) 23.599
+$ pop       (dbl) 7290203
+$ gdpPercap (dbl) 737.0686
+---
+
 Let's compare Japan and Rwanda (countries with the max difference in their life expectancies over the years)
 ---
 ```r
@@ -405,7 +424,7 @@ ggplot(rwanda_japan, aes(x=year, y=lifeExp, color=country))+
   ggtitle("Rwanda V/S Japan Life Expectancy")
 ```
 
-
+![alt text](fig_7.png "Figure 7: Rwanda v/s Japan life expectancy")
 
 
 ```r
@@ -419,7 +438,7 @@ ggplot(rwanda_japan, aes(x=year, y=gdpPercap, color=country))+
 ```
 ---
 
-![](fig_7.png)
+![alt text](fig_8.png "Figure 8: Rwanda v/s Japan GDP")
 ---
 
 
@@ -481,7 +500,7 @@ ggplot(northam, aes(x=year, y=lifeExp, color=country))+
 
 ---
 
-![](fig_8.png)
+![alt text](fig_9.png "LifeExp across North America")
 
 ---
 People live longer in Canada, compared to USA, and Mexico! Numerous reasons e.g. higher GDP!
@@ -493,6 +512,7 @@ People live longer in Canada, compared to USA, and Mexico! Numerous reasons e.g.
 
 This was an interesting homework. I feel confident about plotting, using ggplot mainly.
 It was the first time, I experimented with piping, and to see it work was fabulous. 
+Explored reshape, melt, kable etc.
 
 ***Done***
 
